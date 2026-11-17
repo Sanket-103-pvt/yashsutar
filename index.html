@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yash Sutar Portfolio</title>
+<meta name="description" content="Yash Praveen Sutar, mechanical design engineer in Nashik. CATIA V5, SolidWorks, AutoCAD and Creo. Designed a steel EV charging canopy that was built and installed at Zilla Parishad, Pune.">
+<meta name="theme-color" content="#1A1818">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;800;900&family=JetBrains+Mono:wght@400;500&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: a mechanical drawing sheet. Warm charcoal paper, amber ink, mono title-block labels, ruler and tick marks as dividers. */
+:root{
+  --ink:#1A1818;
+  --panel:#232020;
+  --line:#3B3633;
+  --paper:#EFE9DD;
+  --mute:#9A938B;
+  --amber:#F5B335;
+  --amber-ink:#1A1818;
+  --f-display:'Big Shoulders Display','Arial Narrow','Roboto Condensed',Impact,sans-serif;
+  --f-body:'Manrope','Segoe UI',system-ui,sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+  --gutter:clamp(16px,4vw,48px);
+  color-scheme:dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;background:var(--ink)}
+body{background:var(--ink);color:var(--paper);font-family:var(--f-body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit}
+img{max-width:100%;display:block}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.wrap{width:100%;max-width:1280px;margin:0 auto;padding:0 var(--gutter)}
+.mono{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.mute{color:var(--mute)}
+.skip{position:absolute;left:-999px;top:8px;background:var(--amber);color:var(--amber-ink);padding:8px 14px;z-index:100}
+.skip:focus{left:8px}
+
+/* gate: shows a short loading count, then clears itself */
+.gate{position:fixed;inset:0;z-index:90;background:var(--ink);display:grid;place-items:center;animation:gateout .5s ease 1.5s forwards}
+.gate.done{animation:gateout .45s ease forwards}
+.gate-box{width:min(360px,80vw)}
+.gate-top{display:flex;justify-content:space-between;margin-bottom:12px}
+.gate-bar{height:2px;background:var(--line);position:relative;overflow:hidden}
+.gate-bar i{position:absolute;inset:0;background:var(--amber);transform-origin:left;transform:scaleX(0);animation:fill 1.2s ease forwards}
+@keyframes fill{to{transform:scaleX(1)}}
+@keyframes gateout{to{opacity:0;visibility:hidden;pointer-events:none}}
+
+/* top bar */
+.bar{position:sticky;top:0;z-index:50;background:rgba(26,24,24,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;align-items:center;gap:24px;height:64px}
+.mark{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-display);font-weight:800;font-size:24px;letter-spacing:.04em;text-transform:uppercase}
+.mark b{width:14px;height:14px;background:var(--amber);display:block}
+.links{display:flex;gap:26px;margin-left:auto}
+.links a{text-decoration:none;color:var(--mute);transition:color .2s}
+.links a:hover{color:var(--paper)}
+.clock{display:flex;flex-direction:column;line-height:1.2;text-align:right}
+.clock span:last-child{color:var(--paper)}
+.btn{display:inline-flex;align-items:center;gap:10px;border:1.5px solid var(--amber);background:var(--amber);color:var(--amber-ink);padding:12px 22px;font-weight:700;font-size:15px;text-decoration:none;border-radius:2px;transition:transform .2s,background .2s,color .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--paper);border-color:var(--paper)}
+.btn.ghost:hover{background:var(--paper);color:var(--ink)}
+.btn.sm{padding:9px 16px;font-size:14px}
+.menu-btn{display:none;background:none;border:1px solid var(--line);padding:8px 12px;border-radius:2px;margin-left:auto}
+.drop{display:none}
+
+/* hero */
+.hero{position:relative;padding:clamp(36px,6vw,80px) 0 clamp(32px,5vw,56px);background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;background-position:-1px -1px}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 30% 40%,rgba(26,24,24,.55),var(--ink) 78%)}
+.hero .wrap{position:relative;display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:center}
+.eyebrow{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:22px}
+.tag{border:1px solid var(--line);padding:6px 12px;border-radius:2px;background:rgba(35,32,32,.8)}
+.pill{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--amber);color:var(--amber);padding:6px 12px;border-radius:99px}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--amber);animation:pulse 1.8s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(245,179,53,.6)}100%{box-shadow:0 0 0 10px rgba(245,179,53,0)}}
+h1{font-family:var(--f-display);font-weight:900;text-transform:uppercase;font-size:clamp(52px,8.6vw,132px);line-height:.86;letter-spacing:-.005em;text-wrap:balance}
+h1 em{font-style:normal;color:var(--amber)}
+h1 span{display:block}
+.lead{max-width:56ch;margin:28px 0 30px;font-size:clamp(16px,1.5vw,19px);color:#D6CFC3}
+.cta{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.cue{display:flex;align-items:center;gap:10px;margin-top:34px;color:var(--mute)}
+.cue svg{animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(5px)}}
+
+.portrait{position:relative;width:min(420px,100%);margin:0 auto;aspect-ratio:1}
+.portrait .ph{position:absolute;inset:11%;border-radius:50%;overflow:hidden;background:var(--amber);border:3px solid var(--paper)}
+.portrait .ph img{width:100%;height:100%;object-fit:cover}
+.ring{position:absolute;inset:0;animation:spin 40s linear infinite}
+.ring text{font-family:var(--f-mono);font-size:11.4px;letter-spacing:.22em;fill:var(--mute);text-transform:uppercase}
+@keyframes spin{to{transform:rotate(360deg)}}
+.fig{position:absolute;right:-4%;bottom:6%;background:var(--ink);border:1px solid var(--line);padding:8px 12px}
+.cross{position:absolute;width:18px;height:18px;border:0}
+.cross::before,.cross::after{content:"";position:absolute;background:var(--amber)}
+.cross::before{left:8px;top:0;width:2px;height:18px}
+.cross::after{top:8px;left:0;height:2px;width:18px}
+.cross.a{left:2%;top:8%}.cross.b{right:2%;top:22%}
+
+/* ruler marquee */
+.ruler{border-block:1px solid var(--line);background:var(--panel);overflow:hidden;position:relative}
+.ruler::after{content:"";position:absolute;left:0;right:0;bottom:0;height:9px;background:repeating-linear-gradient(90deg,var(--mute) 0 1px,transparent 1px 10px),repeating-linear-gradient(90deg,var(--mute) 0 1px,transparent 1px 50px);background-size:10px 5px,50px 9px;background-repeat:repeat-x;background-position:left bottom;opacity:.55}
+.track{display:flex;width:max-content;animation:slide 34s linear infinite;padding:16px 0 22px}
+.track span{font-family:var(--f-display);font-weight:800;font-size:26px;letter-spacing:.06em;text-transform:uppercase;padding:0 22px;white-space:nowrap}
+.track span:nth-child(even){color:var(--amber)}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* sections */
+section{padding:clamp(56px,8vw,112px) 0}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:clamp(28px,4vw,52px);border-bottom:1px solid var(--line);padding-bottom:18px}
+h2{font-family:var(--f-display);font-weight:900;text-transform:uppercase;font-size:clamp(44px,7vw,100px);line-height:.9;text-wrap:balance}
+h3{font-family:var(--f-display);font-weight:800;text-transform:uppercase;font-size:clamp(26px,3vw,38px);line-height:1}
+
+/* facts */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line)}
+.fact{padding:26px 22px;border-right:1px solid var(--line)}
+.fact:last-child{border-right:0}
+.fact b{display:block;font-family:var(--f-display);font-weight:900;font-size:clamp(48px,6vw,84px);line-height:.9;color:var(--amber)}
+.fact p{margin-top:10px;color:#D6CFC3;font-size:15px;line-height:1.45}
+
+/* skill wall */
+.wall-ctl{display:flex;align-items:center;gap:14px}
+.count{font-family:var(--f-mono);font-size:14px;min-width:64px;text-align:center}
+.round{width:46px;height:46px;border:1px solid var(--line);background:var(--panel);border-radius:50%;display:grid;place-items:center;transition:background .2s,border-color .2s}
+.round:hover{border-color:var(--amber);background:#2c2826}
+.wall{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-left:var(--gutter);padding:4px var(--gutter) 22px;margin:0 calc(var(--gutter) * -1);scrollbar-width:thin;scrollbar-color:var(--amber) var(--panel);cursor:grab}
+.wall.drag{cursor:grabbing;scroll-snap-type:none}
+.door{flex:0 0 clamp(250px,26vw,330px);scroll-snap-align:start;background:var(--panel);border:1px solid var(--line);padding:22px;min-height:440px;display:flex;flex-direction:column;position:relative;border-radius:2px 2px 2px 2px;transition:border-color .25s,transform .25s}
+.door:hover{border-color:var(--amber);transform:translateY(-4px)}
+.door .num{font-family:var(--f-mono);font-size:12px;color:var(--mute)}
+.door svg.ic{width:64px;height:64px;margin:20px 0 18px;stroke:var(--amber);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.door ul{list-style:none;margin-top:auto;display:flex;flex-wrap:wrap;gap:8px;padding-top:20px}
+.door li{font-family:var(--f-mono);font-size:12px;border:1px solid var(--line);padding:5px 9px;border-radius:2px;background:rgba(26,24,24,.7)}
+.door p{margin-top:10px;color:#C9C2B6;font-size:15px;line-height:1.5}
+.door::after{content:"";position:absolute;right:0;top:0;width:34px;height:34px;background:linear-gradient(225deg,var(--amber) 50%,transparent 50%);opacity:0;transition:opacity .25s}
+.door:hover::after{opacity:1}
+
+/* work */
+.case{display:grid;grid-template-columns:1.1fr 1fr;gap:0;border:1px solid var(--line);margin-bottom:28px;background:var(--panel)}
+.case.flip .draw{order:2}
+.draw{background:#1f1c1c;border-right:1px solid var(--line);padding:clamp(16px,3vw,32px);display:flex;flex-direction:column;justify-content:space-between;gap:16px;min-height:340px;background-image:linear-gradient(rgba(59,54,51,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(59,54,51,.5) 1px,transparent 1px);background-size:28px 28px}
+.case.flip .draw{border-right:0;border-left:1px solid var(--line)}
+.draw svg{width:100%;height:auto;max-height:360px}
+.draw svg .st{stroke:var(--paper);fill:none;stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.draw svg .am{stroke:var(--amber);fill:none;stroke-width:1.4}
+.draw svg .fl{fill:rgba(245,179,53,.14);stroke:var(--amber);stroke-width:2}
+.draw svg text{font-family:var(--f-mono);font-size:11.5px;fill:var(--mute);letter-spacing:.06em}
+.draw svg text.am{fill:var(--amber);stroke:none}
+.body{padding:clamp(22px,3.4vw,44px);display:flex;flex-direction:column;gap:18px}
+.body p{color:#D6CFC3}
+.block{border:1px solid var(--line);margin-top:auto}
+.block div{display:grid;grid-template-columns:120px 1fr;border-bottom:1px solid var(--line)}
+.block div:last-child{border-bottom:0}
+.block dt,.block dd{padding:10px 14px;font-size:14px}
+.block dt{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);border-right:1px solid var(--line)}
+
+/* timeline */
+.tl{list-style:none;border-top:1px solid var(--line)}
+.tl li{display:grid;grid-template-columns:90px 1fr 230px;gap:24px;padding:28px 0;border-bottom:1px solid var(--line);align-items:start;transition:background .25s,padding .25s}
+.tl li:hover{background:var(--panel);padding-left:14px;padding-right:14px}
+.tl .n{font-family:var(--f-display);font-weight:900;font-size:56px;line-height:.9;color:var(--amber)}
+.tl p{color:#D6CFC3;margin-top:8px;max-width:62ch}
+.tl .when{text-align:right}
+
+/* certs */
+.certs{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px}
+.cert{border:1px solid var(--line);padding:20px;background:var(--panel);display:flex;flex-direction:column;gap:10px;min-height:170px}
+.cert b{font-family:var(--f-display);font-size:24px;line-height:1.05;text-transform:uppercase;font-weight:800}
+.cert span{margin-top:auto}
+.edu{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:14px}
+.edu div{border:1px solid var(--line);padding:18px 20px}
+.edu b{display:block;font-size:17px;margin:6px 0 2px}
+
+/* closing */
+.close{background:var(--amber);color:var(--amber-ink);padding:clamp(56px,9vw,120px) 0;position:relative;overflow:hidden}
+.close h2{font-size:clamp(56px,12vw,190px);line-height:.82}
+.close .row{display:flex;flex-wrap:wrap;gap:16px 40px;margin-top:34px;align-items:center}
+.close .btn{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.close .btn.ghost{background:transparent;color:var(--ink)}
+.close .btn.ghost:hover{background:var(--ink);color:var(--paper)}
+.close .direct{font-family:var(--f-mono);font-size:14px;display:flex;flex-direction:column;gap:4px}
+.close a{text-decoration-thickness:1.5px;text-underline-offset:4px}
+
+footer{padding:56px 0 30px;border-top:1px solid var(--line)}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:32px}
+.fgrid ul{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.fgrid a{text-decoration:none;color:#D6CFC3}
+.fgrid a:hover{color:var(--amber)}
+.fbase{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:44px;padding-top:20px;border-top:1px solid var(--line)}
+.totop{background:none;border:1px solid var(--line);padding:8px 14px;border-radius:2px}
+.totop:hover{border-color:var(--amber);color:var(--amber)}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:80;background:rgba(10,9,9,.78);display:none;place-items:center;padding:16px}
+.modal.open{display:grid}
+.sheet{width:min(620px,100%);background:var(--ink);border:1px solid var(--amber);padding:clamp(20px,3vw,34px);max-height:92vh;overflow:auto}
+.sheet-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.prog{display:flex;gap:6px;margin:8px 0 22px}
+.prog i{flex:1;height:3px;background:var(--line)}
+.prog i.on{background:var(--amber)}
+.x{background:none;border:1px solid var(--line);width:38px;height:38px;border-radius:50%}
+.x:hover{border-color:var(--amber)}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.opt{text-align:left;background:var(--panel);border:1px solid var(--line);padding:18px;border-radius:2px;transition:border-color .2s,background .2s}
+.opt:hover,.opt[aria-pressed="true"]{border-color:var(--amber);background:#2c2826}
+.opt b{display:block;font-family:var(--f-display);font-size:26px;text-transform:uppercase;font-weight:800;line-height:1}
+.opt span{font-size:14px;color:var(--mute)}
+label{display:block;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin:16px 0 6px}
+input,textarea{width:100%;background:var(--panel);border:1px solid var(--line);color:var(--paper);padding:12px 14px;font:inherit;border-radius:2px}
+input:focus,textarea:focus{border-color:var(--amber);outline:none}
+textarea{min-height:150px;resize:vertical}
+.acts{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px;align-items:center}
+.note{font-size:14px;color:var(--mute);margin-top:14px}
+.step{display:none}.step.on{display:block}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--amber);color:var(--amber-ink);padding:10px 18px;font-weight:700;z-index:99;display:none;border-radius:2px}
+.toast.show{display:block}
+
+@media (max-width:980px){
+  .hero .wrap{grid-template-columns:1fr}
+  .portrait{order:-1;width:min(300px,70vw)}
+  .facts{grid-template-columns:1fr 1fr}
+  .fact:nth-child(2){border-right:0}
+  .fact:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .case,.case.flip{grid-template-columns:1fr}
+  .case.flip .draw{order:0}
+  .draw,.case.flip .draw{border:0;border-bottom:1px solid var(--line)}
+  .tl li{grid-template-columns:64px 1fr;gap:16px}
+  .tl .when{grid-column:2;text-align:left}
+  .tl .n{font-size:44px}
+  .certs{grid-template-columns:1fr 1fr}
+  .edu{grid-template-columns:1fr}
+  .fgrid{grid-template-columns:1fr 1fr}
+}
+@media (max-width:760px){
+  .links,.clock,.bar .btn{display:none}
+  .menu-btn{display:block}
+  .drop.open{display:flex;flex-direction:column;gap:0;border-bottom:1px solid var(--line);background:var(--ink)}
+  .drop a{padding:14px var(--gutter);border-top:1px solid var(--line);text-decoration:none}
+  .fact{padding:20px 16px}
+  .opts{grid-template-columns:1fr}
+  .block div{grid-template-columns:96px 1fr}
+}
+@media (max-width:520px){
+  .certs,.fgrid{grid-template-columns:1fr}
+  .sec-head{flex-direction:column;align-items:flex-start}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;scroll-behavior:auto!important;transition:none!important}
+  .gate{display:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="gate" id="gate" aria-hidden="true">
+  <div class="gate-box">
+    <div class="gate-top mono"><span>Loading drawing</span><span id="pct">0%</span></div>
+    <div class="gate-bar"><i></i></div>
+    <p class="mono mute" style="margin-top:14px">Sheet 01 / Yash Sutar</p>
+  </div>
+</div>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="mark" href="#top" aria-label="Yash Sutar, back to top"><b></b>Yash Sutar</a>
+    <nav class="links mono" aria-label="Sections">
+      <a href="#skills">Skills</a><a href="#work">Work</a><a href="#story">Story</a><a href="#contact">Contact</a>
+    </nav>
+    <div class="clock mono" aria-label="Local time in Nashik"><span class="mute">Nashik, IST</span><span id="clock">--:--:--</span></div>
+    <button class="btn sm" data-open>Hire me</button>
+    <button class="menu-btn mono" id="menuBtn" aria-expanded="false" aria-controls="drop">Menu</button>
+  </div>
+  <div class="drop mono" id="drop">
+    <a href="#skills">Skills</a><a href="#work">Work</a><a href="#story">Story</a><a href="#contact">Contact</a>
+  </div>
+</header>
+
+<main id="main">
+<div id="top"></div>
+<section class="hero" style="padding-bottom:clamp(32px,5vw,56px)">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow mono">
+        <span class="tag">Mechanical design engineer</span>
+        <span class="pill"><i></i>Open to internships and roles</span>
+      </div>
+      <h1><span>Concept</span><span>to <em>installed</em></span><span>steel.</span></h1>
+      <p class="lead">I am a final-year B.Tech Mechanical Engineering student at K.K. Wagh, Nashik. I model in CATIA V5, SolidWorks, AutoCAD and Creo, and I have taken a steel EV charging canopy from concept to an installed structure at Zilla Parishad, Pune.</p>
+      <div class="cta">
+        <button class="btn" data-open>Hire me <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h12M9 3l5 5-5 5"/></svg></button>
+        <a class="btn ghost" href="#work">See the work</a>
+      </div>
+      <div class="cue mono"><svg width="14" height="18" viewBox="0 0 14 18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 1v15M2 11l5 5 5-5"/></svg>Scroll to explore</div>
+    </div>
+    <figure class="portrait">
+      <svg class="ring" viewBox="0 0 400 400" aria-hidden="true">
+        <defs><path id="circ" d="M200,200 m-186,0 a186,186 0 1,1 372,0 a186,186 0 1,1 -372,0"/></defs>
+        <text><textPath href="#circ">Mechanical design engineer / CATIA V5 / SolidWorks / AutoCAD / Creo / Nashik / </textPath></text>
+      </svg>
+      <div class="ph"><img src="assets/yash.jpg" alt="Portrait of Yash Sutar in a dark suit and striped tie" width="780" height="780"></div>
+      <span class="cross a" aria-hidden="true"></span><span class="cross b" aria-hidden="true"></span>
+      <figcaption class="fig mono">Fig. 01 / Yash P. Sutar</figcaption>
+    </figure>
+  </div>
+</section>
+
+<div class="ruler" aria-hidden="true">
+  <div class="track">
+    <span>CATIA V5</span><span>SolidWorks</span><span>AutoCAD</span><span>Creo Parametric</span><span>Steel structures</span><span>EV charging</span><span>Solar systems</span><span>Gas and fire detection</span>
+    <span>CATIA V5</span><span>SolidWorks</span><span>AutoCAD</span><span>Creo Parametric</span><span>Steel structures</span><span>EV charging</span><span>Solar systems</span><span>Gas and fire detection</span>
+  </div>
+</div>
+
+<section style="padding-bottom:0">
+  <div class="wrap">
+    <div class="facts">
+      <div class="fact"><b>6 mo</b><p>Design internship at Aviro Energy India, Pune</p></div>
+      <div class="fact"><b>1</b><p>Steel canopy designed, built and installed on site</p></div>
+      <div class="fact"><b>4</b><p>CAD tools: CATIA V5, SolidWorks, AutoCAD, Creo</p></div>
+      <div class="fact"><b>3 mo</b><p>Internship with Team Brahmastra Racing</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><p class="mono mute" style="margin-bottom:12px">Skill wall / drag or swipe</p><h2>Six bays of<br>working skill</h2></div>
+      <div class="wall-ctl">
+        <button class="round" id="prev" aria-label="Previous skill"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 8H2M7 3L2 8l5 5"/></svg></button>
+        <span class="count" id="count">01 / 06</span>
+        <button class="round" id="next" aria-label="Next skill"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h12M9 3l5 5-5 5"/></svg></button>
+      </div>
+    </div>
+    <div class="wall" id="wall" tabindex="0" aria-label="Skills, scroll horizontally">
+      <article class="door">
+        <span class="num">01</span>
+        <svg class="ic" viewBox="0 0 64 64" aria-hidden="true"><path d="M8 52h48M14 52V20l18-10 18 10v32"/><path d="M24 52V32h16v20M32 10v22"/></svg>
+        <h3>CAD and design</h3>
+        <p>3D part modelling and engineering drawings in four packages.</p>
+        <ul><li>CATIA V5</li><li>SolidWorks</li><li>AutoCAD</li><li>Creo Parametric</li></ul>
+      </article>
+      <article class="door">
+        <span class="num">02</span>
+        <svg class="ic" viewBox="0 0 64 64" aria-hidden="true"><path d="M10 54h44M32 54V14"/><path d="M32 14h24l-6 10H32"/><path d="M22 54l10-8 10 8"/></svg>
+        <h3>Steel structures</h3>
+        <p>Single-column cantilever design, taken through manufacturing handover.</p>
+        <ul><li>Steel structure design</li><li>Design handover</li><li>Documentation</li></ul>
+      </article>
+      <article class="door">
+        <span class="num">03</span>
+        <svg class="ic" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="10"/><path d="M32 8v8M32 48v8M8 32h8M48 32h8M15 15l6 6M43 43l6 6M49 15l-6 6M21 43l-6 6"/></svg>
+        <h3>Core mechanical</h3>
+        <p>Fundamentals behind the models, including rotating machinery from an IISc bootcamp.</p>
+        <ul><li>Manufacturing processes</li><li>Strength of materials</li><li>Quality control</li><li>Thermodynamics</li><li>Compressors and pumps</li></ul>
+      </article>
+      <article class="door">
+        <span class="num">04</span>
+        <svg class="ic" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="20" r="8"/><path d="M32 6v2M32 32v2M18 20h2M44 20h2M22 10l1 1M41 29l1 1M42 10l-1 1M23 29l-1 1"/><path d="M14 56V40h28v16M42 44h8l6 6v6"/><circle cx="24" cy="56" r="3"/><circle cx="48" cy="56" r="3"/></svg>
+        <h3>EV and solar</h3>
+        <p>Live project work on charging stations, solar layouts and energy audits.</p>
+        <ul><li>EV charging station design</li><li>Solar system layout</li><li>Energy audits</li></ul>
+      </article>
+      <article class="door">
+        <span class="num">05</span>
+        <svg class="ic" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 8c8 10 14 16 14 26a14 14 0 0 1-28 0c0-6 3-10 7-14 1 5 4 7 7 7-2-6-1-12 0-19z"/><path d="M32 44c-3 0-5-2-5-5 0-2 2-4 5-7 3 3 5 5 5 7 0 3-2 5-5 5z"/></svg>
+        <h3>Safety systems</h3>
+        <p>Led a gas and fire detection mini project with onboard fire control.</p>
+        <ul><li>Gas detection</li><li>Fire detection</li><li>Onboard fire control</li></ul>
+      </article>
+      <article class="door">
+        <span class="num">06</span>
+        <svg class="ic" viewBox="0 0 64 64" aria-hidden="true"><rect x="8" y="12" width="48" height="32" rx="2"/><path d="M4 52h56M24 52l2-8M40 52l-2-8"/><path d="M18 36l8-8 6 5 10-12"/></svg>
+        <h3>Tools and team</h3>
+        <p>Office tools, analytics and the habits that keep projects moving.</p>
+        <ul><li>MS Excel</li><li>PowerPoint</li><li>Word</li><li>Power BI</li><li>AI tools</li><li>Teamwork</li><li>Communication</li></ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="work" style="padding-top:clamp(24px,4vw,48px)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><p class="mono mute" style="margin-bottom:12px">Selected work / 02 sheets</p><h2>Drawn, built,<br>installed</h2></div>
+    </div>
+
+    <article class="case">
+      <div class="draw">
+        <svg viewBox="0 0 520 330" role="img" aria-label="Schematic of a single-column cantilever steel canopy with a base plate, one column and a roof arm extending to one side">
+          <line class="am" x1="20" y1="286" x2="500" y2="286"/>
+          <path class="am" d="M40 296h440" stroke-dasharray="2 6"/>
+          <rect class="fl" x="150" y="278" width="80" height="8"/>
+          <rect class="st" x="178" y="86" width="24" height="192"/>
+          <path class="fl" d="M60 70 L470 52 L470 66 L60 84 Z"/>
+          <path class="st" d="M190 86 L470 66 M190 108 L330 74"/>
+          <path class="st" d="M60 84 L190 86"/>
+          <line class="am" x1="505" y1="52" x2="505" y2="286"/><path class="am" d="M500 58l5-6 5 6M500 280l5 6 5-6"/>
+          <text x="478" y="176" class="am" transform="rotate(-90 478 176)">HEIGHT</text>
+          <line class="am" x1="190" y1="316" x2="470" y2="316"/><path class="am" d="M196 311l-6 5 6 5M464 311l6 5-6 5"/>
+          <text x="290" y="310" class="am">CANTILEVER REACH</text>
+          <text x="40" y="44">ROOF PLANE</text><text x="206" y="150">SINGLE COLUMN</text><text x="52" y="270">BASE PLATE</text>
+          <text x="20" y="22">SCHEMATIC / NOT TO SCALE</text>
+        </svg>
+        <span class="mono mute">Fig. 02 / Single-column cantilever, generic schematic</span>
+      </div>
+      <div class="body">
+        <p class="mono" style="color:var(--amber)">Sheet 01 / Internship project</p>
+        <h3>EV charging station canopy</h3>
+        <p>As the design engineer at Aviro Energy India, I designed a single-column cantilever steel canopy for EV charging in CATIA V5. I handed the design to the manufacturing team, and the canopy was built and installed on site at Zilla Parishad, Pune.</p>
+        <dl class="block">
+          <div><dt>Role</dt><dd>Design engineer</dd></div>
+          <div><dt>Tool</dt><dd>CATIA V5</dd></div>
+          <div><dt>Client</dt><dd>Aviro Energy India Pvt. Ltd., Pune</dd></div>
+          <div><dt>Status</dt><dd>Installed, Zilla Parishad, Pune</dd></div>
+        </dl>
+      </div>
+    </article>
+
+    <article class="case flip">
+      <div class="draw">
+        <svg viewBox="0 0 520 330" role="img" aria-label="Flow diagram: sense gas or fire, identify the hazard, trigger onboard fire control">
+          <rect class="st" x="24" y="110" width="132" height="90"/>
+          <rect class="fl" x="194" y="110" width="132" height="90"/>
+          <rect class="st" x="364" y="110" width="132" height="90"/>
+          <path class="am" d="M156 155h38M326 155h38"/><path class="am" d="M186 149l8 6-8 6M356 149l8 6-8 6"/>
+          <text x="48" y="150" class="am">01 DETECT</text><text x="40" y="172">GAS AND FIRE</text>
+          <text x="218" y="150" class="am">02 IDENTIFY</text><text x="222" y="172">HAZARD</text>
+          <text x="388" y="150" class="am">03 RESPOND</text><text x="384" y="172">ONBOARD FIRE</text><text x="384" y="188">CONTROL</text>
+          <path class="am" d="M90 110V72h340v38" stroke-dasharray="3 6"/>
+          <text x="196" y="62">RAPID HAZARD IDENTIFICATION</text>
+          <text x="20" y="22">SCHEMATIC / NOT TO SCALE</text>
+        </svg>
+        <span class="mono mute">Fig. 03 / System logic, schematic</span>
+      </div>
+      <div class="body">
+        <p class="mono" style="color:var(--amber)">Sheet 02 / Mini project</p>
+        <h3>Auto-gas detection with fire extinguishing</h3>
+        <p>I led the design and development of a gas and fire detection system built for rapid hazard identification and effective onboard fire control. As project lead I coordinated the team and the work from concept to a working system.</p>
+        <dl class="block">
+          <div><dt>Role</dt><dd>Project lead</dd></div>
+          <div><dt>Type</dt><dd>College mini project</dd></div>
+          <div><dt>Goal</dt><dd>Rapid hazard identification and onboard fire control</dd></div>
+        </dl>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="story" style="padding-top:clamp(24px,4vw,48px)">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><p class="mono mute" style="margin-bottom:12px">Story so far / <span id="tlc">05 entries</span></p><h2>How I got<br>here</h2></div>
+    </div>
+    <ol class="tl">
+      <li><span class="n">01</span><div><h3>B.Tech, Mechanical Engineering</h3><p>K.K. Wagh Institute of Engineering Education and Research, Nashik. Final-year student building a base in manufacturing processes, strength of materials, quality control and thermodynamics.</p></div><span class="when mono mute">Education</span></li>
+      <li><span class="n">02</span><div><h3>Intern, Team Brahmastra Racing</h3><p>Selected for the racing team as an intern, building technical knowledge and teamwork in a racing team environment.</p></div><span class="when mono mute">3-month internship</span></li>
+      <li><span class="n">03</span><div><h3>Design intern, Aviro Energy India</h3><p>Design engineer on a steel EV charging canopy, plus live projects across solar power systems, EV charging infrastructure and energy audits. The design went to manufacturing and was installed at Zilla Parishad, Pune.</p></div><span class="when mono mute">6-month internship</span></li>
+      <li><span class="n">04</span><div><h3>Project lead, gas and fire detection</h3><p>Led a mini project on rapid hazard identification and onboard fire control.</p></div><span class="when mono mute">College project</span></li>
+      <li><span class="n">05</span><div><h3>Certifications</h3><p>CAD, rotating machinery, applied AI for energy and soft skills, listed below.</p></div><span class="when mono mute">Ongoing</span></li>
+    </ol>
+
+    <div class="certs">
+      <div class="cert"><span class="mono mute">CAD Center</span><b>AutoCAD and SolidWorks</b><span class="mono mute">Certified</span></div>
+      <div class="cert"><span class="mono mute">IISc Bengaluru</span><b>Rotating Machinery Bootcamp</b><span class="mono mute">Compressors and pumps</span></div>
+      <div class="cert"><span class="mono mute">University of Michigan</span><b>AI for Energy and Biomedical Applications</b><span class="mono mute">Course</span></div>
+      <div class="cert"><span class="mono mute">NPTEL</span><b>Soft Skills Enhancement</b><span class="mono mute">Course</span></div>
+    </div>
+    <div class="edu">
+      <div><span class="mono mute">B.Tech</span><b>Mechanical Engineering</b><span class="mute">K.K. Wagh Institute, Nashik</span></div>
+      <div><span class="mono mute">HSC</span><b>K. Narkhede College</b><span class="mute">69%</span></div>
+      <div><span class="mono mute">SSC</span><b>St. Aloysius Convent School</b><span class="mute">87.80%</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="close" id="contact">
+  <div class="wrap">
+    <p class="mono" style="margin-bottom:18px">Open to internships and full-time design roles</p>
+    <h2>Available<br>for new work.</h2>
+    <div class="row">
+      <button class="btn" data-open>Start a conversation <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h12M9 3l5 5-5 5"/></svg></button>
+      <div class="direct">
+        <a href="mailto:sutaryash2006@gmail.com">sutaryash2006@gmail.com</a>
+        <a href="tel:+918329470286">+91 83294 70286</a>
+        <a href="https://www.linkedin.com/in/yash-sutar-ab696637b" target="_blank" rel="noopener">linkedin.com/in/yash-sutar-ab696637b</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="fgrid">
+      <div><a class="mark" href="#top"><b></b>Yash Sutar</a><p class="mute" style="margin-top:14px;max-width:34ch">Mechanical design engineer from Nashik, Maharashtra.</p></div>
+      <div><span class="mono mute">Pages</span><ul><li><a href="#skills">Skills</a></li><li><a href="#work">Work</a></li><li><a href="#story">Story</a></li><li><a href="#contact">Contact</a></li></ul></div>
+      <div><span class="mono mute">Reach me</span><ul><li><a href="mailto:sutaryash2006@gmail.com">Email</a></li><li><a href="tel:+918329470286">Phone</a></li><li><a href="https://www.linkedin.com/in/yash-sutar-ab696637b" target="_blank" rel="noopener">LinkedIn</a></li></ul></div>
+      <div><span class="mono mute">Status</span><ul><li><span class="pill mono" style="display:inline-flex"><i></i>Open to work</span></li><li class="mute">Nashik, IST <span id="clock2" class="mono"></span></li></ul></div>
+    </div>
+    <div class="fbase mono mute"><span>&copy; 2026 Yash Praveen Sutar</span><button class="totop mono" id="totop">Back to top</button></div>
+  </div>
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mt">
+  <div class="sheet">
+    <div class="sheet-top"><span class="mono mute" id="stepLabel">Step 1 of 3</span><button class="x" id="close" aria-label="Close">&times;</button></div>
+    <div class="prog" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+
+    <div class="step on" data-step="1">
+      <h3 id="mt">What do you need?</h3>
+      <div class="opts">
+        <button class="opt" data-kind="an internship opportunity" aria-pressed="false"><b>Internship</b><span>Design or mechanical intern role</span></button>
+        <button class="opt" data-kind="a full-time design role" aria-pressed="false"><b>Full-time role</b><span>Mechanical design engineer</span></button>
+        <button class="opt" data-kind="a design project" aria-pressed="false"><b>Design project</b><span>CAD or steel structure work</span></button>
+        <button class="opt" data-kind="something else" aria-pressed="false"><b>Something else</b><span>Tell me more</span></button>
+      </div>
+    </div>
+
+    <div class="step" data-step="2">
+      <h3>Who is writing?</h3>
+      <label for="fn">Your name</label><input id="fn" autocomplete="name" placeholder="Name">
+      <label for="fe">Email or phone</label><input id="fe" autocomplete="email" placeholder="Where Yash can reply">
+      <label for="fc">Company (optional)</label><input id="fc" autocomplete="organization" placeholder="Company">
+      <div class="acts"><button class="btn ghost sm" data-back>Back</button><button class="btn sm" data-next>Continue</button></div>
+    </div>
+
+    <div class="step" data-step="3">
+      <h3>Review and send</h3>
+      <label for="fm">Message</label><textarea id="fm"></textarea>
+      <div class="acts">
+        <button class="btn ghost sm" data-back>Back</button>
+        <a class="btn sm" id="mail" href="mailto:sutaryash2006@gmail.com">Open in email app</a>
+        <button class="btn ghost sm" id="copy">Copy message</button>
+      </div>
+      <p class="note">Send it to <strong>sutaryash2006@gmail.com</strong>. If your email app does not open, copy the message and paste it into a new email.</p>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status">Copied</div>
+
+<script>
+(function(){
+  var $=function(s,r){return (r||document).querySelector(s)},$$=function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+
+  /* gate */
+  var gate=$('#gate'),pct=$('#pct'),t0=Date.now();
+  var tick=setInterval(function(){var p=Math.min(100,Math.round((Date.now()-t0)/12));pct.textContent=p+'%';if(p>=100){clearInterval(tick);gate.classList.add('done')}},40);
+
+  /* clock */
+  function clock(){
+    var s='';
+    try{s=new Date().toLocaleTimeString('en-GB',{timeZone:'Asia/Kolkata',hour12:false})}catch(e){s=new Date().toLocaleTimeString()}
+    $('#clock').textContent=s;$('#clock2').textContent=s;
+  }
+  clock();setInterval(clock,1000);
+
+  /* mobile menu */
+  var mb=$('#menuBtn'),dr=$('#drop');
+  mb.addEventListener('click',function(){var o=dr.classList.toggle('open');mb.setAttribute('aria-expanded',o)});
+  $$('#drop a').forEach(function(a){a.addEventListener('click',function(){dr.classList.remove('open');mb.setAttribute('aria-expanded','false')})});
+
+  /* skill wall */
+  var wall=$('#wall'),doors=$$('.door',wall),cnt=$('#count');
+  function idx(){
+    var x=wall.scrollLeft,best=0,d=1e9;
+    doors.forEach(function(el,i){var dd=Math.abs(el.offsetLeft-wall.offsetLeft-x-0);if(dd<d){d=dd;best=i}});
+    if(wall.scrollLeft+wall.clientWidth>=wall.scrollWidth-4)best=doors.length-1;
+    return best;
+  }
+  function upd(){cnt.textContent=('0'+(idx()+1)).slice(-2)+' / 0'+doors.length}
+  function go(n){n=Math.max(0,Math.min(doors.length-1,n));wall.scrollTo({left:doors[n].offsetLeft-wall.offsetLeft,behavior:'smooth'})}
+  $('#prev').addEventListener('click',function(){go(idx()-1)});
+  $('#next').addEventListener('click',function(){go(idx()+1)});
+  wall.addEventListener('scroll',upd,{passive:true});
+  wall.addEventListener('keydown',function(e){if(e.key==='ArrowRight'){e.preventDefault();go(idx()+1)}if(e.key==='ArrowLeft'){e.preventDefault();go(idx()-1)}});
+  var down=false,sx=0,sl=0,moved=false;
+  wall.addEventListener('pointerdown',function(e){if(e.pointerType!=='mouse')return;down=true;moved=false;sx=e.clientX;sl=wall.scrollLeft});
+  window.addEventListener('pointermove',function(e){if(!down)return;var dx=e.clientX-sx;if(Math.abs(dx)>4){moved=true;wall.classList.add('drag')}wall.scrollLeft=sl-dx});
+  window.addEventListener('pointerup',function(){if(!down)return;down=false;wall.classList.remove('drag');if(moved)go(idx())});
+  window.addEventListener('resize',upd);upd();
+
+  /* modal */
+  var modal=$('#modal'),steps=$$('.step'),bars=$$('.prog i'),cur=1,kind='',lastFocus=null;
+  function show(n){
+    cur=n;steps.forEach(function(s){s.classList.toggle('on',+s.dataset.step===n)});
+    bars.forEach(function(b,i){b.classList.toggle('on',i<n)});
+    $('#stepLabel').textContent='Step '+n+' of 3';
+    if(n===3)build();
+  }
+  function build(){
+    var nm=$('#fn').value.trim(),ct=$('#fe').value.trim(),co=$('#fc').value.trim();
+    var msg='Hi Yash,\n\nI am '+(nm||'[your name]')+(co?' from '+co:'')+'. I am reaching out about '+(kind||'an opportunity')+'.\n\nYou can reach me at '+(ct||'[your email or phone]')+'.\n\nThanks,\n'+(nm||'[your name]');
+    $('#fm').value=msg;sync();
+  }
+  function sync(){$('#mail').href='mailto:sutaryash2006@gmail.com?subject='+encodeURIComponent('Portfolio enquiry: '+(kind||'hello'))+'&body='+encodeURIComponent($('#fm').value)}
+  $('#fm').addEventListener('input',sync);
+  function open(){lastFocus=document.activeElement;modal.classList.add('open');show(1);document.body.style.overflow='hidden';$('.opt').focus()}
+  function close(){modal.classList.remove('open');document.body.style.overflow='';if(lastFocus&&lastFocus.focus)lastFocus.focus()}
+  $$('[data-open]').forEach(function(b){b.addEventListener('click',open)});
+  $('#close').addEventListener('click',close);
+  modal.addEventListener('click',function(e){if(e.target===modal)close()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))close()});
+  $$('.opt').forEach(function(o){o.addEventListener('click',function(){$$('.opt').forEach(function(x){x.setAttribute('aria-pressed','false')});o.setAttribute('aria-pressed','true');kind=o.dataset.kind;show(2);$('#fn').focus()})});
+  $$('[data-next]').forEach(function(b){b.addEventListener('click',function(){show(cur+1)})});
+  $$('[data-back]').forEach(function(b){b.addEventListener('click',function(){show(cur-1)})});
+  var toast=$('#toast');
+  $('#copy').addEventListener('click',function(){
+    var v=$('#fm').value;
+    function ok(){toast.textContent='Message copied';toast.classList.add('show');setTimeout(function(){toast.classList.remove('show')},1800)}
+    function fallback(){var m=$('#fm');m.select();try{document.execCommand('copy');ok()}catch(e){toast.textContent='Select the text and copy it';toast.classList.add('show');setTimeout(function(){toast.classList.remove('show')},2200)}}
+    try{navigator.clipboard.writeText(v).then(ok,fallback)}catch(e){fallback()}
+  });
+
+  $('#totop').addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
+})();
+</script>
+</body>
+</html>
